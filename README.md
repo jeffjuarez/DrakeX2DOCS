@@ -1,7 +1,7 @@
 # DrakeX2
 Drake X2 Docs project
 
-THE ARCHITECTURE 
+# X2 ARCHITECTURE 
 
 DataLayer - This is where all of our ORM tooling related objects reside. 
 Our EF (Entity Framework 6.1.2) DataContext, Data, Mappings and Migrations. 
