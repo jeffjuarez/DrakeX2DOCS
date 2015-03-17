@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Web.Models.FileUploadModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>X2 Docs</h1>
+    <p class="lead">Provides user to upload their documents and store it in a database for future retrieval and viewing the document(s) in browser.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @Id = "FormUpload", enctype = "multipart/form-data" }))
+        {
+            <label for="uploadedFile">File:</label>
+            <input type="file" name="uploadedFile" id="uploadedFile" />
+
+            <input type="submit" value="Upload" />
+        }
+    </div>
+
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <label for="filter">Filter:</label>
+            <input type="text" name="filter" id="filter" />
+            <select name="filterValue" id="filterValue">
+                <option value="filename">File Name</option>
+                <option value="date">Date</option>
+                <option value="keyword">Key Word</option>
+            </select>
+            
+            <input type="submit" value="Search" />
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="data-grid" class="table-responsive">
+            <table class="table table-bordered table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Type</th>
+                        <th>Preview</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FileName</td>
+                            <td>@item.FileType</td>
+                            <td>@Html.ActionLink("Preview", "PreviewFile", new { id = item.ID }, new { target = "_blank" })</td>
+                            <td>
+                                @using (Html.BeginForm("Delete", "Home", new { id = item.ID }, FormMethod.Post))
+                                {
+                                    <input type="submit" value="Delete">
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
