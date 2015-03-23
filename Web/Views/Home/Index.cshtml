@@ -3,37 +3,101 @@
     ViewBag.Title = "Home Page";
 }
 
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#filterValue').change(function () {
+            if ($('#filterValue').val() === 'daterange') {
+                $('#filterdiv').hide();
+                $('#filterDateRange').show();
+            
+            }
+            else {
+                $('#filterdiv').show();
+                $('#filterDateRange').hide();
+              
+
+            }
+        });
+    });
+</script>
+
+
+
+
 <div class="jumbotron">
     <h1>X2 Docs</h1>
     <p class="lead">Provides user to upload their documents and store it in a database for future retrieval and viewing the document(s) in browser.</p>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @Id = "FormUpload", enctype = "multipart/form-data" }))
-        {
-            <label for="uploadedFile">File:</label>
-            <input type="file" name="uploadedFile" id="uploadedFile" />
+<table style="width:100%;">
+    <tr>
+        <td>
+            <div>
+                @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { @Id = "FormUpload", enctype = "multipart/form-data" }))
+                {
+                    <label for="uploadedFile">File:</label>
+                    <input type="file" name="uploadedFile" id="uploadedFile" />
 
-            <input type="submit" value="Upload" />
-        }
-    </div>
+                    <input type="submit" value="Upload File" />
+                }
+            </div>
+        </td>
+        <td>
+            <div style="text-align:right ;">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+                {
 
-    <div class="col-md-6">
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-        {
-            <label for="filter">Filter:</label>
-            <input type="text" name="filter" id="filter" />
-            <select name="filterValue" id="filterValue">
-                <option value="filename">File Name</option>
-                <option value="date">Date</option>
-                <option value="keyword">Key Word</option>
-            </select>
-            
-            <input type="submit" value="Search" />
-        }
-    </div>
-</div>
+
+
+                    //Search BOX
+
+
+                    <div id="filterdiv" style="display:block;width:100%;float :right ;">
+                        <label for="filter">Filter:</label>
+                        <input type="text" id="Filter" name="Filter" />
+                    </div>
+
+                       <div id="filterDateRange" style="display:none;width:100%;float:right;">
+                            <label for="FilterFrom">From:</label>
+                            <input type="text" id="FilterFrom" name="FilterFrom" />
+                        
+                            <label for="FilterTo">To:</label>
+                            <input type="text" id="FilterTo" name="FilterTo" />
+                        </div>
+
+                    <div>
+                        <select id="filterValue" name="filterValue">
+                            <option value="keyword">Key Word</option>
+                            <option value="filename">File Name</option>
+                            <option value="daterange">Date</option>
+
+                        </select>
+                    </div>
+
+                        <input type="submit" value="Search" />
+
+
+                }
+
+                    </div>
+
+        </td>
+   </tr>
+</table>
+
+   <hr />    
+
 
 <div class="row">
     <div class="col-md-12">
@@ -43,6 +107,7 @@
                     <tr>
                         <th>File Name</th>
                         <th>Type</th>
+                        <th>Date Uploaded</th>
                         <th>Preview</th>
                         <th>Delete</th>
                     </tr>
@@ -53,6 +118,10 @@
                         <tr>
                             <td>@item.FileName</td>
                             <td>@item.FileType</td>
+                            <td>
+                               @String.Format("{0:d}", item.FileDateUploaded)
+                            </td>
+
                             <td>@Html.ActionLink("Preview", "PreviewFile", new { id = item.ID }, new { target = "_blank" })</td>
                             <td>
                                 @using (Html.BeginForm("Delete", "Home", new { id = item.ID }, FormMethod.Post))

@@ -23,11 +23,11 @@ namespace Web.Controllers
             _unitOfWork = new UnitOfWork(_ctx);
         }
 
-        public ActionResult Index(string filter, string filterValue)
+        public ActionResult Index(string filter, string filterValue,string filterFrom, string filterTo)
         {
             List<FileUploadModel> uploadedFiles = null;
-
-            if (filter != null && filterValue != null)
+         
+            if (filter != null && filter != string.Empty  && filterValue != null & filterValue != string.Empty )
             {
                 if (filterValue == "filename")
                     uploadedFiles = _unitOfWork.Repository<FileUpload>()
@@ -41,7 +41,7 @@ namespace Web.Controllers
                             FileType = t.FileType,
                         })
                         .ToList();
-                else if (filterValue == "keyword")
+                else if (filterValue == "keyword" && filter != string.Empty )
                     uploadedFiles = _unitOfWork.Repository<FileUpload>()
                         .SelectQuery("uspTestStoredProc @FileName = {0}", filter)
                         .Select(t => new FileUploadModel()
@@ -51,7 +51,28 @@ namespace Web.Controllers
                             FileType = t.FileType,
                         })
                         .ToList();
-            }
+                else if (filterValue =="daterange")
+                        uploadedFiles = _unitOfWork.Repository<FileUpload>()
+                        .Query()
+                        .Get()
+                        .Select(t => new FileUploadModel()
+                        {
+                            ID = t.FileUploadID,
+                            FileName = t.FileName,
+                            FileType = t.FileType,
+                            FileDateUploaded = t.FileDateUploaded,
+                        })
+                           .ToList();
+                        if (filterFrom != string.Empty && filterTo != string.Empty)
+                            {
+                                DateTime fromDate = Convert.ToDateTime(filterFrom);
+                                DateTime toDate = Convert.ToDateTime(filterTo);
+                                uploadedFiles = uploadedFiles.Where(i => i.FileDateUploaded >= fromDate && i.FileDateUploaded <= toDate)
+                                    .OrderBy(x => x.FileDateUploaded)
+                                    .ToList();
+                            }
+                  }
+                
             else
             {
                 uploadedFiles = _unitOfWork.Repository<FileUpload>()
@@ -62,8 +83,14 @@ namespace Web.Controllers
                         ID = t.FileUploadID,
                         FileName = t.FileName,
                         FileType = t.FileType,
+                        FileDateUploaded = t.FileDateUploaded,
                     })
-                    .ToList();
+                       .ToList();
+
+
+
+
+                
             }
 
 
@@ -89,6 +116,7 @@ namespace Web.Controllers
                     FileName = uploadedFile.FileName,
                     FileType = System.IO.Path.GetExtension(uploadedFile.FileName).Substring(1),
                     FileContent = fileBytes,
+                    FileDateUploaded = DateTime.Now,
                     State = ObjectState.Added,
                 };
 
@@ -139,7 +167,7 @@ namespace Web.Controllers
             contentTypes.Add("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             contentTypes.Add("xls", "application/vnd.ms-excel");
             contentTypes.Add("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            contentTypes.Add("html", "text/html");
+            contentTypes.Add("HTML", "text/html");
             contentTypes.Add("txt", "text/plain");
             contentTypes.Add("png", "image/png");
             contentTypes.Add("jpeg", "image/jpeg");

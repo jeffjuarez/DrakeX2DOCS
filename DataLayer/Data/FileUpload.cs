@@ -1,4 +1,5 @@
 ﻿using Repository;
+using System;
 
 namespace DataLayer.Data
 {
@@ -8,5 +9,6 @@ namespace DataLayer.Data
         public string FileName { get; set; }
         public string FileType { get; set; }
         public byte[] FileContent { get; set; }
+        public DateTime FileDateUploaded { get; set; }
     }
 }

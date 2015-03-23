@@ -14,6 +14,5 @@ C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Reposit
 C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\bin\Debug\EntityFramework.xml
 C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\obj\Debug\Repository.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\obj\Debug\Repository.dll
 C:\Users\Administrator\Downloads\DrakeProject-master\DrakeProject-master\Repository\obj\Debug\Repository.pdb

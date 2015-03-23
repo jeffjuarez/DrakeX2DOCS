@@ -24,12 +24,21 @@ namespace DataLayer.Mapping
                 .IsRequired()
                 .HasMaxLength(20);
 
+            Property(t => t.FileDateUploaded)
+               .IsRequired();
+               
+
             // Table & Column Mappings
             ToTable("FileUploads");
             Property(t => t.FileUploadID).HasColumnName("ID");
             Property(t => t.FileName).HasColumnName("Name");
             Property(t => t.FileType).HasColumnName("Type");
             Property(t => t.FileContent).HasColumnName("Content");
+            Property(t => t.FileDateUploaded).HasColumnName("DateUploaded");
+
+
+
+
         }
     }
 }
